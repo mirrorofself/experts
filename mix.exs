@@ -55,9 +55,15 @@ defmodule Experts.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.migrate": ["ecto.migrate", &ecto_dump_when_dev_env/1],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      "ecto.seed": ["run priv/repo/seeds.exs"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
+  end
+
+  defp ecto_dump_when_dev_env(_) do
+    if Mix.env() == :dev, do: Mix.Task.run("ecto.dump")
   end
 end
