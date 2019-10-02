@@ -9,12 +9,10 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+When running an elixir release on a development machine, export the following environment variables. 
 
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+```
+export SECRET_KEY_BASE=$(mix phx.gen.secret)
+export DATABASE_URL=ecto://postgres:postgres@localhost/experts_dev
+export HOST=example.com
+```
