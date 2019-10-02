@@ -26,9 +26,11 @@ defmodule ExpertsWeb.ChannelCase do
   end
 
   setup tags do
+    # credo:disable-for-next-line
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Experts.Repo)
 
     unless tags[:async] do
+      # credo:disable-for-next-line
       Ecto.Adapters.SQL.Sandbox.mode(Experts.Repo, {:shared, self()})
     end
 
