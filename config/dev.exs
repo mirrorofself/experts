@@ -74,3 +74,24 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :git_hooks,
+  verbose: true,
+  hooks: [
+    pre_commit: [
+      tasks: [
+        "mix format --check-formatted",
+        "mix credo",
+        "mix test"
+      ]
+    ],
+    pre_push: [
+      verbose: false,
+      tasks: [
+        "mix format --check-formatted",
+        "mix credo",
+        "mix test",
+        "echo 'success!'"
+      ]
+    ]
+  ]

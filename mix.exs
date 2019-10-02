@@ -43,7 +43,8 @@ defmodule Experts.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:credo, "~> 1.1.4", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.1.4", only: [:dev, :test], runtime: false},
+      {:git_hooks, "~> 0.3.2", only: [:test, :dev], runtime: false}
     ]
   end
 
@@ -59,6 +60,7 @@ defmodule Experts.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "ecto.seed": ["run priv/repo/seeds.exs"],
+      precommit: ["git_hooks.run pre_commit"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
