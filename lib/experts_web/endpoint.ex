@@ -42,5 +42,7 @@ defmodule ExpertsWeb.Endpoint do
     key: "_experts_key",
     signing_salt: "B04rTOYk"
 
+  plug Pow.Plug.Session, otp_app: :experts
+
   plug ExpertsWeb.Router
 end

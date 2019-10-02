@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
+    <header>
+      <%= if @current_user do %>
+        <span><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
+      <% else %>
+        <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
+        <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
+      <% end %>
+    </header>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
