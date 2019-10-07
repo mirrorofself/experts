@@ -45,7 +45,8 @@ defmodule Experts.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.1.4", only: [:dev, :test], runtime: false},
       {:git_hooks, "~> 0.3.2", only: [:test, :dev], runtime: false},
-      {:pow, "~> 1.0"}
+      {:pow, "~> 1.0"},
+      {:ex_machina, "~> 2.3"}
     ]
   end
 
