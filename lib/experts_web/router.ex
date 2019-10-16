@@ -3,7 +3,7 @@ defmodule ExpertsWeb.Router do
   use Pow.Phoenix.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html", "js"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
@@ -24,7 +24,11 @@ defmodule ExpertsWeb.Router do
   scope "/", ExpertsWeb do
     pipe_through [:browser, :protected]
 
-    resources("/questions", QuestionController)
+    resources("/questions", QuestionController) do
+      resources("/answers", AnswerController, only: [:create])
+    end
+
+    resources("/answers", AnswerController, only: [:show, :edit, :update, :delete])
   end
 
   scope "/", ExpertsWeb do

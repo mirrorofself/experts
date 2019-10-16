@@ -95,4 +95,82 @@ defmodule Experts.Posts do
         :ok
     end
   end
+
+  @doc """
+  Lists answers.
+  """
+  def list_answers(question) do
+    Answer
+    |> where(question_id: ^question.id)
+    |> preload(:user)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets an answer.
+  """
+  def get_answer(id) do
+    Answer
+    |> preload(:user)
+    |> Repo.get!(id)
+  end
+
+  @doc """
+  A changeset for a new answer.
+  """
+  def new_answer do
+    Answer.changeset(%Answer{}, %{})
+  end
+
+  @doc """
+  Creates an answer associated with an author and a question.
+  """
+  def create_answer(user, question, attrs) do
+    answer =
+      %Answer{}
+      |> Changeset.change(user_id: user.id, question_id: question.id)
+      |> Answer.changeset(attrs)
+      |> Repo.insert()
+
+    case answer do
+      {:ok, answer} ->
+        answer = Repo.preload(answer, :user)
+        {:ok, answer}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
+  end
+
+  @doc """
+  Edit answer changeset.
+  """
+  def edit_answer(user, id) do
+    answer =
+      Answer
+      |> preload(:user)
+      |> Repo.get_by!(id: id, user_id: user.id)
+
+    Answer.changeset(answer, %{})
+  end
+
+  @doc """
+  Updates an answer.
+  """
+  def update_answer(user, id, attrs) do
+    Answer
+    |> preload(:user)
+    |> Repo.get_by!(id: id, user_id: user.id)
+    |> Answer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes an answer.
+  """
+  def delete_answer!(user, id) do
+    answer = Repo.get_by(Answer, id: id, user_id: user.id)
+
+    Repo.delete!(answer)
+  end
 end

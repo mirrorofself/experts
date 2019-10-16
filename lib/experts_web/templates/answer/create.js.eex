@@ -1,0 +1,7 @@
+<%
+show_answer = ExpertsWeb.AnswerView.render("_show.html", conn: @conn, answer: @answer)
+new_answer_form = ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @changeset, question: @question)
+%>
+
+$("#answers").append("<%= javascript_escape show_answer %>")
+$("#new_answer").html("<%= javascript_escape new_answer_form %>")

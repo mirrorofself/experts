@@ -1,0 +1,1 @@
+$("#answer_<%= @changeset.data.id %>").html("<%= javascript_escape ExpertsWeb.AnswerView.render("_edit.html", conn: @conn, changeset: @changeset) %>")

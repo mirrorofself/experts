@@ -16,7 +16,14 @@ defmodule ExpertsWeb.QuestionController do
         |> redirect(to: Routes.question_path(conn, :index))
 
       question ->
-        render(conn, "show.html", question: question)
+        answers = Posts.list_answers(question)
+        new_answer_changeset = Posts.new_answer()
+
+        render(conn, "show.html",
+          question: question,
+          answers: answers,
+          new_answer_changeset: new_answer_changeset
+        )
     end
   end
 

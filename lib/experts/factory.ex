@@ -4,7 +4,7 @@ defmodule Experts.Factory do
   """
 
   use ExMachina.Ecto, repo: Experts.Repo
-  alias Experts.{Posts.Question, Users.User}
+  alias Experts.{Posts.Answer, Posts.Question, Users.User}
   alias Pow.Ecto.{Schema.Password}
 
   def user_factory do
@@ -26,5 +26,13 @@ defmodule Experts.Factory do
     }
 
     merge_attributes(question, attrs)
+  end
+
+  def answer_factory(attrs) do
+    answer = %Answer{
+      body: "Take a look at the book..."
+    }
+
+    merge_attributes(answer, attrs)
   end
 end

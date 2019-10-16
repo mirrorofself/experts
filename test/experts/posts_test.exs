@@ -192,6 +192,53 @@ defmodule Experts.PostsTest do
     end
   end
 
+  describe "get_answer/1" do
+    setup do
+      question_user = insert(:user)
+      question = insert(:question, user_id: question_user.id)
+
+      user = insert(:user, email: "alan@example.com")
+      answer = insert(:answer, question_id: question.id, user_id: user.id)
+
+      {:ok, user: user, answer: answer}
+    end
+
+    test "returns an answer with a preloaded user", %{user: user, answer: answer} do
+      reloaded_answer = Posts.get_answer(answer.id)
+
+      assert reloaded_answer.id == answer.id
+      assert reloaded_answer.body == answer.body
+      assert reloaded_answer.user.email == user.email
+    end
+  end
+
+  # TODO: add Posts tests
+  describe "new_answer/0" do
+    test "returns a new answer changeset" do
+    end
+  end
+
+  describe "create_answer/3" do
+    test "with valid attrs returns an answer with preloaded user" do
+    end
+
+    test "with invalid attrs returns a changeset with errors" do
+    end
+  end
+
+  describe "edit_answer/2" do
+    test "returns an edit answer changeset" do
+    end
+  end
+
+  describe "update_answer/3" do
+    test "with valid attrs returns an updated answer with preloaded user" do
+    end
+
+    test "with invalid attrs returns a changeset with errors" do
+    end
+  end
+
   def insert_user(_context) do
     user = insert(:user)
 

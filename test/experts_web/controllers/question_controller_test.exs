@@ -19,14 +19,25 @@ defmodule ExpertsWeb.QuestionControllerTest do
   describe "show/2" do
     setup %{conn: %{assigns: %{current_user: user}}} do
       question = insert(:question, title: "Really?", user_id: user.id)
+      answer = insert(:answer, body: "Sample answer.", question_id: question.id, user_id: user.id)
 
-      {:ok, question: question}
+      {:ok, question: question, answer: answer}
     end
 
     test "renders a question", %{conn: conn, question: question} do
       conn = get(conn, "/questions/#{question.id}")
 
       assert html_response(conn, 200) =~ "Really?"
+    end
+
+    test "renders a list of answers and a new answer form", %{
+      conn: conn,
+      question: question
+    } do
+      conn = get(conn, "/questions/#{question.id}")
+
+      assert html_response(conn, 200) =~ "Sample answer."
+      assert html_response(conn, 200) =~ "Write an answer"
     end
   end
 

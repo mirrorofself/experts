@@ -1,0 +1,13 @@
+<%= form_for @changeset, Routes.question_answer_path(@conn, :create, @question.id), [data: [remote: true], id: "new_answer"], fn f -> %>
+  <h3>Write an answer</h3>
+
+  <div>
+    <div><%= label f, :body %></div>
+    <div><%= textarea f, :body %></div>
+    <div><%= error_tag f, :body %></div>
+  </div>
+  
+  <div>
+    <%= submit "Post an answer", data: [disable_with: "Post an answer"] %>
+  </div>
+<% end %>

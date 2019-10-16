@@ -21,6 +21,39 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: answers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.answers (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    question_id bigint NOT NULL,
+    body text NOT NULL,
+    inserted_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
+);
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
+
+
+--
 -- Name: questions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -99,6 +132,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: answers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answers_id_seq'::regclass);
+
+
+--
 -- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -110,6 +150,14 @@ ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.qu
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: answers answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
 
 
 --
@@ -144,6 +192,22 @@ CREATE UNIQUE INDEX users_email_index ON public.users USING btree (email);
 
 
 --
+-- Name: answers answers_question_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT answers_question_id_fkey FOREIGN KEY (question_id) REFERENCES public.questions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: answers answers_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT answers_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: questions questions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -155,5 +219,5 @@ ALTER TABLE ONLY public.questions
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO public."schema_migrations" (version) VALUES (20191002042716), (20191008110023);
+INSERT INTO public."schema_migrations" (version) VALUES (20191002042716), (20191008110023), (20191008110639);
 

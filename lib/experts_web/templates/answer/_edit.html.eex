@@ -1,0 +1,14 @@
+<%= form_for @changeset, Routes.answer_path(@conn, :update, @changeset.data.id), [data: [remote: true], id: "edit_answer_#{@changeset.data.id}"], fn f -> %>
+  <h3>Edit an answer</h3>
+
+  <div>
+    <div><%= label f, :body %></div>
+    <div><%= text_input f, :body %></div>
+    <div><%= error_tag f, :body %></div>
+  </div>
+
+  <div>
+    <%= submit "Update an answer", data: [disable_with: "Update an answer"] %>
+    <%= link("Cancel", to: Routes.answer_path(@conn, :show, @changeset.data.id), data: [remote: true]) %>
+  </div>
+<% end %>

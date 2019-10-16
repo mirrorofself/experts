@@ -1,0 +1,11 @@
+<div id="answer_<%= @answer.id %>">
+  <div><%= @answer.body %></div>
+  <div><%= @answer.inserted_at %></div>
+  <div><%= @answer.user.name %></div>
+  <div><%= @answer.user.email %></div>
+
+  <%= if can_manage?(@conn, @answer) do %>
+    <div><%= link("Edit", to: Routes.answer_path(@conn, :edit, @answer.id), data: [remote: @answer.id]) %></div>
+    <div><%= link("Delete", to: Routes.answer_path(@conn, :delete, @answer.id), data: [remote: @answer.id, confirm: "Are you sure?"], method: :delete) %></div>
+  <% end %>
+</div>

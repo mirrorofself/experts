@@ -6,3 +6,9 @@
 <div><%= @question.title %></div>
 <div><%= @question.body %></div>
 <div><%= @question.tags %></div>
+
+<div id="answers">
+  <%= render_many(@answers, ExpertsWeb.AnswerView, "_show.html", conn: @conn, as: :answer) %>
+</div>
+
+<%= ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @new_answer_changeset, question: @question) %>

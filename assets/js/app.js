@@ -9,7 +9,12 @@ import css from "../css/app.css";
 //
 // Import dependencies
 //
-import "phoenix_html";
+// import "phoenix_html";
+require("@rails/ujs").start();
+
+import $ from "jquery";
+window.jQuery = $;
+window.$ = $;
 
 // Import local files
 //

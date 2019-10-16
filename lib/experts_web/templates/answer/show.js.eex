@@ -1,0 +1,1 @@
+$("#edit_answer_<%= @answer.id %>").html("<%= javascript_escape ExpertsWeb.AnswerView.render("_show.html", conn: @conn, answer: @answer) %>")
