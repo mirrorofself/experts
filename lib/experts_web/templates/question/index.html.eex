@@ -1,0 +1,13 @@
+<h1>Questions</h1>
+
+<div><%= link("New question", to: Routes.question_path(@conn, :new)) %></div>
+
+<div>
+  <%= for question <- @questions do %>
+    <div>
+      <div><%= link(question.title, to: Routes.question_path(@conn, :show, question.id)) %></div>
+      <div><%= question.body %></div>
+      <div><%= question.tags %></div>
+    </div>
+  <% end %>
+</div>

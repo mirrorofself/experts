@@ -23,6 +23,8 @@ defmodule ExpertsWeb.Router do
 
   scope "/", ExpertsWeb do
     pipe_through [:browser, :protected]
+
+    resources("/questions", QuestionController)
   end
 
   scope "/", ExpertsWeb do

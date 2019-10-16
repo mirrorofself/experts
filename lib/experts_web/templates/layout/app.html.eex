@@ -15,10 +15,12 @@
         <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
         <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
       <% end %>
+
+      <div><%= link("Questions", to: Routes.question_path(@conn, :index)) %></div>
     </header>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :warning) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>

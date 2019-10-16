@@ -1,0 +1,25 @@
+<h1>New Question</h1>
+
+<%= form_for @changeset, Routes.question_path(@conn, :create), fn f -> %>
+  <div>
+    <div><%= label f, :title %></div>
+    <div><%= text_input f, :title %></div>
+    <div><%= error_tag f, :title %></div>
+  </div>
+
+  <div>
+    <div><%= label f, :body %></div>
+    <div><%= textarea f, :body %></div>
+    <div><%= error_tag f, :body %></div>
+  </div>
+
+  <div>
+    <div><%= label f, :tags %></div>
+    <div><%= text_input f, :tags %></div>
+    <div><%= error_tag f, :tags %></div>
+  </div>
+  
+  <div>
+    <%= submit "Post a question" %>
+  </div>
+<% end %>
