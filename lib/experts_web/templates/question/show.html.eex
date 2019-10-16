@@ -1,7 +1,9 @@
 <h1>Question Page</h1>
 
-<div><%= link("Edit", to: Routes.question_path(@conn, :edit, @question.id)) %></div>
-<div><%= link("Delete", to: Routes.question_path(@conn, :delete, @question.id), data: [confirm: "Are you sure?"], method: :delete) %></div>
+<%= if can_manage?(@conn, @question) do %>
+  <div><%= link("Edit", to: Routes.question_path(@conn, :edit, @question.id)) %></div>
+  <div><%= link("Delete", to: Routes.question_path(@conn, :delete, @question.id), data: [confirm: "Are you sure?"], method: :delete) %></div>
+<% end %>
 
 <div><%= @question.title %></div>
 <div><%= @question.body %></div>

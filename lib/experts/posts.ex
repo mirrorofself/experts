@@ -20,7 +20,9 @@ defmodule Experts.Posts do
   Gets a question.
   """
   def get_question(id) do
-    Repo.get(Question, id)
+    Question
+    |> preload(:user)
+    |> Repo.get(id)
   end
 
   @doc """
