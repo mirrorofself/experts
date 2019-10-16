@@ -2,13 +2,6 @@ defmodule ExpertsWeb.QuestionControllerTest do
   use ExpertsWeb.ConnCase
   import Experts.Factory
 
-  setup %{conn: conn} do
-    user = insert(:user)
-    new_conn = Plug.Conn.assign(conn, :current_user, user)
-
-    {:ok, conn: new_conn}
-  end
-
   describe "index/2" do
     test "renders a list of questions", %{conn: conn} do
       conn = get(conn, "/questions")
@@ -17,11 +10,12 @@ defmodule ExpertsWeb.QuestionControllerTest do
   end
 
   describe "show/2" do
-    setup %{conn: %{assigns: %{current_user: user}}} do
+    setup do
+      user = insert(:user)
       question = insert(:question, title: "Really?", user_id: user.id)
       answer = insert(:answer, body: "Sample answer.", question_id: question.id, user_id: user.id)
 
-      {:ok, question: question, answer: answer}
+      {:ok, user: user, question: question, answer: answer}
     end
 
     test "renders a question", %{conn: conn, question: question} do
@@ -30,25 +24,60 @@ defmodule ExpertsWeb.QuestionControllerTest do
       assert html_response(conn, 200) =~ "Really?"
     end
 
-    test "renders a list of answers and a new answer form", %{
+    test "renders a list of answers", %{
       conn: conn,
       question: question
     } do
       conn = get(conn, "/questions/#{question.id}")
 
       assert html_response(conn, 200) =~ "Sample answer."
-      assert html_response(conn, 200) =~ "Write an answer"
+    end
+
+    test "when logged out doesn't render a new answer form", %{
+      conn: conn,
+      question: question
+    } do
+      conn = get(conn, "/questions/#{question.id}")
+
+      assert html_response(conn, 200) =~ "become a member"
+    end
+
+    test "when logged in renders a new answer form", %{
+      conn: conn,
+      user: user,
+      question: question
+    } do
+      logged_in_conn = Plug.Conn.assign(conn, :current_user, user)
+
+      conn = get(logged_in_conn, "/questions/#{question.id}")
+
+      assert html_response(conn, 200) =~ "Post an answer"
     end
   end
 
   describe "new/2" do
-    test "renders a form for a new question", %{conn: conn} do
+    test "when logged in renders a form for a new question", %{conn: conn} do
+      user = insert(:user)
+      conn = Plug.Conn.assign(conn, :current_user, user)
+
       conn = get(conn, "/questions/new")
-      assert html_response(conn, 200) =~ "New Question"
+      assert html_response(conn, 200) =~ "Post a question"
+    end
+
+    test "when logged out doesn't render a form for a new question", %{conn: conn} do
+      conn = get(conn, "/questions/new")
+      assert html_response(conn, 200) =~ "become a member"
     end
   end
 
   describe "create/2" do
+    setup %{conn: conn} do
+      user = insert(:user)
+      new_conn = Plug.Conn.assign(conn, :current_user, user)
+
+      {:ok, conn: new_conn}
+    end
+
     test "when succeeds redirect to a question page", %{conn: conn} do
       valid_params = %{
         "question" => %{
@@ -83,6 +112,13 @@ defmodule ExpertsWeb.QuestionControllerTest do
   end
 
   describe "edit/2" do
+    setup %{conn: conn} do
+      user = insert(:user)
+      new_conn = Plug.Conn.assign(conn, :current_user, user)
+
+      {:ok, conn: new_conn}
+    end
+
     test "with unauthorized user redirects to a list of questions", %{
       conn: conn
     } do
@@ -105,6 +141,13 @@ defmodule ExpertsWeb.QuestionControllerTest do
   end
 
   describe "update/2" do
+    setup %{conn: conn} do
+      user = insert(:user)
+      new_conn = Plug.Conn.assign(conn, :current_user, user)
+
+      {:ok, conn: new_conn}
+    end
+
     test "with unauthorized user redirects to a list of questions", %{
       conn: conn
     } do
@@ -141,6 +184,13 @@ defmodule ExpertsWeb.QuestionControllerTest do
   end
 
   describe "delete/2" do
+    setup %{conn: conn} do
+      user = insert(:user)
+      new_conn = Plug.Conn.assign(conn, :current_user, user)
+
+      {:ok, conn: new_conn}
+    end
+
     test "with unauthorized user redirects to a list of questions", %{
       conn: conn
     } do

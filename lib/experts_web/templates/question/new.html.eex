@@ -1,25 +1,33 @@
 <h1>New Question</h1>
 
-<%= form_for @changeset, Routes.question_path(@conn, :create), fn f -> %>
-  <div>
-    <div><%= label f, :title %></div>
-    <div><%= text_input f, :title %></div>
-    <div><%= error_tag f, :title %></div>
-  </div>
+<%= if @current_user do %>
+  <%= form_for @changeset, Routes.question_path(@conn, :create), fn f -> %>
+    <div>
+      <div><%= label f, :title %></div>
+      <div><%= text_input f, :title %></div>
+      <div><%= error_tag f, :title %></div>
+    </div>
 
-  <div>
-    <div><%= label f, :body %></div>
-    <div><%= textarea f, :body %></div>
-    <div><%= error_tag f, :body %></div>
-  </div>
+    <div>
+      <div><%= label f, :body %></div>
+      <div><%= textarea f, :body %></div>
+      <div><%= error_tag f, :body %></div>
+    </div>
 
-  <div>
-    <div><%= label f, :tags %></div>
-    <div><%= text_input f, :tags %></div>
-    <div><%= error_tag f, :tags %></div>
-  </div>
-  
-  <div>
-    <%= submit "Post a question" %>
-  </div>
+    <div>
+      <div><%= label f, :tags %></div>
+      <div><%= text_input f, :tags %></div>
+      <div><%= error_tag f, :tags %></div>
+    </div>
+
+    <div>
+      <%= submit "Post a question" %>
+    </div>
+  <% end %>
+<% else %>
+  <p>
+    You need to <%= link("login", to: Routes.pow_session_path(@conn, :new)) %>
+    or <%= link("become a member", to: Routes.pow_registration_path(@conn, :new)) %>
+    before posting a question.
+  </p>
 <% end %>

@@ -4,6 +4,9 @@ defmodule ExpertsWeb.QuestionView do
   alias Experts.Posts.Question
 
   def can_manage?(conn, %Question{} = question) do
-    Pow.Plug.current_user(conn).id == question.user.id
+    case Pow.Plug.current_user(conn) do
+      nil -> false
+      user -> user.id == question.user.id
+    end
   end
 end

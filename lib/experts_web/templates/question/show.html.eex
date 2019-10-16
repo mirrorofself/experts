@@ -13,4 +13,13 @@
   <%= render_many(@answers, ExpertsWeb.AnswerView, "_show.html", conn: @conn, as: :answer) %>
 </div>
 
-<%= ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @new_answer_changeset, question: @question) %>
+<%= if @current_user do %>
+  <%= ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @new_answer_changeset, question: @question) %>
+<% else %>
+  <h2>Write an answer</h2>
+  <p>
+    You need to <%= link("login", to: Routes.pow_session_path(@conn, :new)) %>
+    or <%= link("become a member", to: Routes.pow_registration_path(@conn, :new)) %>
+    before posting an answer.
+  </p>
+<% end %>
