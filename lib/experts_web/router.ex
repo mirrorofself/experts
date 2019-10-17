@@ -34,7 +34,7 @@ defmodule ExpertsWeb.Router do
   scope "/", ExpertsWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    resources("/questions", QuestionController, only: [:new, :show, :index])
+    get "/", QuestionController, :index
+    resources("/questions", QuestionController, only: [:new, :show])
   end
 end

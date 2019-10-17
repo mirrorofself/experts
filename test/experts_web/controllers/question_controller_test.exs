@@ -4,7 +4,7 @@ defmodule ExpertsWeb.QuestionControllerTest do
 
   describe "index/2" do
     test "renders a list of questions", %{conn: conn} do
-      conn = get(conn, "/questions")
+      conn = get(conn, "/")
       assert html_response(conn, 200) =~ "Questions"
     end
   end
@@ -174,7 +174,7 @@ defmodule ExpertsWeb.QuestionControllerTest do
       delete_conn = delete(conn, "/questions/#{question.id}")
 
       assert get_flash(delete_conn, :info) == "The question was deleted."
-      assert redirected_to(delete_conn) == "/questions"
+      assert redirected_to(delete_conn) == "/"
     end
   end
 end
