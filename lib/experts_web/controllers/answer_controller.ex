@@ -3,6 +3,8 @@ defmodule ExpertsWeb.AnswerController do
   alias Experts.Posts
 
   @moduledoc """
+  A controller for managing answers to questions.
+
   All actions are expected to be called with XMLHttpRequest requests. They render server generated
   javascript responses. Javascript code in a response is executed in a browser. Rails UJS is used to make
   these requests in the views - https://github.com/rails/rails/tree/master/actionview/app/assets/javascripts.

@@ -119,18 +119,6 @@ defmodule ExpertsWeb.QuestionControllerTest do
       {:ok, conn: new_conn}
     end
 
-    test "with unauthorized user redirects to a list of questions", %{
-      conn: conn
-    } do
-      unauthorized_user = insert(:user, email: "unauthorized.user@example.com")
-      question = insert(:question, user_id: unauthorized_user.id)
-
-      conn = get(conn, "/questions/#{question.id}/edit")
-
-      assert get_flash(conn, :warning) == "You don't have access to the page."
-      assert redirected_to(conn) == "/questions"
-    end
-
     test "with authorized user renders an edit form", %{conn: conn} do
       question = insert(:question, user_id: conn.assigns.current_user.id)
 
@@ -148,24 +136,13 @@ defmodule ExpertsWeb.QuestionControllerTest do
       {:ok, conn: new_conn}
     end
 
-    test "with unauthorized user redirects to a list of questions", %{
-      conn: conn
-    } do
-      unauthorized_user = insert(:user, email: "unauthorized.user@example.com")
-      question = insert(:question, user_id: unauthorized_user.id)
-
-      update_conn = put(conn, "/questions/#{question.id}", %{"question" => %{}})
-
-      assert get_flash(update_conn, :warning) == "You don't have access to the page."
-      assert redirected_to(update_conn) == "/questions"
-    end
-
-    test "with authorized user and valid attrs updates a question", %{conn: conn} do
+    test "with valid attrs sets a flash message and redirects to a question page", %{conn: conn} do
       question = insert(:question, user_id: conn.assigns.current_user.id)
       attrs = %{"question" => %{"title" => "Updated title", "body" => "Updated body"}}
 
       update_conn = put(conn, "/questions/#{question.id}", attrs)
 
+      assert get_flash(update_conn, :info) == "The question was updated!"
       assert redirected_to(update_conn) == "/questions/#{question.id}"
 
       show_conn = get(conn, "/questions/#{question.id}")
@@ -173,7 +150,7 @@ defmodule ExpertsWeb.QuestionControllerTest do
       assert html_response(show_conn, 200) =~ "Updated title"
     end
 
-    test "with authorized user and invalid attrs updates a question", %{conn: conn} do
+    test "with invalid attrs renders an edit form with errors", %{conn: conn} do
       question = insert(:question, user_id: conn.assigns.current_user.id)
       attrs = %{"question" => %{"title" => ""}}
 
@@ -191,19 +168,7 @@ defmodule ExpertsWeb.QuestionControllerTest do
       {:ok, conn: new_conn}
     end
 
-    test "with unauthorized user redirects to a list of questions", %{
-      conn: conn
-    } do
-      unauthorized_user = insert(:user, email: "unauthorized.user@example.com")
-      question = insert(:question, user_id: unauthorized_user.id)
-
-      delete_conn = delete(conn, "/questions/#{question.id}")
-
-      assert get_flash(delete_conn, :warning) == "You don't have access to the page."
-      assert redirected_to(delete_conn) == "/questions"
-    end
-
-    test "with authorized user deletes a question", %{conn: conn} do
+    test "sets a flash message and redirects to a list of questions", %{conn: conn} do
       question = insert(:question, user_id: conn.assigns.current_user.id)
 
       delete_conn = delete(conn, "/questions/#{question.id}")

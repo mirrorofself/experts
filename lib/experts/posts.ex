@@ -35,7 +35,7 @@ defmodule Experts.Posts do
   @doc """
   Creates a question.
 
-  A user and a slug are required question fields that are set directly on the changeset without being cast.
+  A user and a slug are required question fields that are set directly on the changeset.
   """
   def create_question(user, attrs) do
     slug = Slug.slugify(attrs["title"])
@@ -49,53 +49,35 @@ defmodule Experts.Posts do
   @doc """
   Builds a changeset for an edit form.
 
-  Only a user who created a question has permissions to edit it.
-
-  If a user didn't create a question, we return a `:not_permitted` error.
+  Only a user who created a question can edit it. Otherwise an error is raised.
   """
   def edit_question(user, id) do
-    question = Repo.get_by(Question, id: id, user_id: user.id)
-
-    case question do
-      nil ->
-        :not_permitted
-
-      %Question{} ->
-        {:ok, Question.changeset(question, %{})}
-    end
+    Question
+    |> Repo.get_by!(id: id, user_id: user.id)
+    |> Question.changeset(%{})
   end
 
   @doc """
   Updates a question.
+
+  Only a user who created a question can update it. Otherwise an error is raised.
   """
   def update_question(user, id, attrs) do
-    question = Repo.get_by(Question, id: id, user_id: user.id)
-
-    case question do
-      nil ->
-        :not_permitted
-
-      %Question{} ->
-        question
-        |> Question.changeset(attrs)
-        |> Repo.update()
-    end
+    Question
+    |> Repo.get_by!(id: id, user_id: user.id)
+    |> Question.changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
   Deletes a question.
+
+  Only a user who created a question can delete it. Otherwise an error is raised.
   """
   def delete_question(user, id) do
-    question = Repo.get_by(Question, id: id, user_id: user.id)
-
-    case question do
-      nil ->
-        :not_permitted
-
-      %Question{} ->
-        Repo.delete!(question)
-        :ok
-    end
+    Question
+    |> Repo.get_by!(id: id, user_id: user.id)
+    |> Repo.delete!()
   end
 
   @doc """

@@ -109,16 +109,10 @@ defmodule Experts.PostsTest do
       {:ok, user: user, question: question}
     end
 
-    test "with unauthorized user returns not permitted", %{question: question} do
-      unauthorized_user = insert(:user, email: "unauthorized-user@example.com")
+    test "returns a changeset", %{user: user, question: question} do
+      %Ecto.Changeset{data: %Question{id: id}} = Posts.edit_question(user, question.id)
 
-      assert Posts.edit_question(unauthorized_user, question.id) == :not_permitted
-    end
-
-    test "with authorized user returns a changeset", %{user: user, question: question} do
-      {:ok, changeset} = Posts.edit_question(user, question.id)
-
-      assert changeset.data.id == question.id
+      assert id == question.id
     end
   end
 
@@ -128,13 +122,6 @@ defmodule Experts.PostsTest do
       question = insert(:question, user_id: user.id)
 
       {:ok, user: user, question: question}
-    end
-
-    test "with unauthorized user returns not permitted", %{question: question} do
-      unauthorized_user = insert(:user, email: "unauthorized-user@example.com")
-      attrs = %{"title" => "Updated"}
-
-      assert Posts.update_question(unauthorized_user, question.id, attrs) == :not_permitted
     end
 
     test "with valid attrs returns a question", %{user: user, question: question} do
@@ -175,17 +162,11 @@ defmodule Experts.PostsTest do
       {:ok, user: user, question: question}
     end
 
-    test "with unauthorized user returns not permitted", %{question: question} do
-      unauthorized_user = insert(:user, email: "unauthorized-user@example.com")
-
-      assert Posts.delete_question(unauthorized_user, question.id) == :not_permitted
+    test "returns a question struct", %{user: user, question: question} do
+      assert %Question{} = Posts.delete_question(user, question.id)
     end
 
-    test "with authorized user returns ok", %{user: user, question: question} do
-      assert Posts.delete_question(user, question.id) == :ok
-    end
-
-    test "with authorized user deletes a question", %{user: user, question: question} do
+    test "deletes a question", %{user: user, question: question} do
       Posts.delete_question(user, question.id)
 
       assert Repo.get(Question, question.id) == nil

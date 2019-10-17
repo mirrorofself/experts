@@ -2,6 +2,16 @@ defmodule ExpertsWeb.QuestionController do
   use ExpertsWeb, :controller
   alias Experts.Posts
 
+  @moduledoc """
+  A controller for managing questions.
+
+  All visitors can see a list of questions and a question page. Only registered users can post questions. Only a user
+  who created a question can edit or delete it.
+
+  The `question#show` page displays a question, a list of answers and a form to write an answer. A form to write an
+  answer is visible only to a registered user. Other visitors see a link to login or to become a member.
+  """
+
   def index(conn, _params) do
     questions = Posts.list_questions()
 
@@ -49,27 +59,15 @@ defmodule ExpertsWeb.QuestionController do
 
   def edit(conn, %{"id" => id}) do
     user = Pow.Plug.current_user(conn)
+    changeset = Posts.edit_question(user, id)
 
-    case Posts.edit_question(user, id) do
-      :not_permitted ->
-        conn
-        |> put_flash(:warning, "You don't have access to the page.")
-        |> redirect(to: Routes.question_path(conn, :index))
-
-      {:ok, changeset} ->
-        render(conn, "edit.html", changeset: changeset)
-    end
+    render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "question" => attrs}) do
     user = Pow.Plug.current_user(conn)
 
     case(Posts.update_question(user, id, attrs)) do
-      :not_permitted ->
-        conn
-        |> put_flash(:warning, "You don't have access to the page.")
-        |> redirect(to: Routes.question_path(conn, :index))
-
       {:ok, question} ->
         conn
         |> put_flash(:info, "The question was updated!")
@@ -81,18 +79,12 @@ defmodule ExpertsWeb.QuestionController do
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Pow.Plug.current_user(conn)
+    conn
+    |> Pow.Plug.current_user()
+    |> Posts.delete_question(id)
 
-    case Posts.delete_question(user, id) do
-      :not_permitted ->
-        conn
-        |> put_flash(:warning, "You don't have access to the page.")
-        |> redirect(to: Routes.question_path(conn, :index))
-
-      :ok ->
-        conn
-        |> put_flash(:info, "The question was deleted.")
-        |> redirect(to: Routes.question_path(conn, :index))
-    end
+    conn
+    |> put_flash(:info, "The question was deleted.")
+    |> redirect(to: Routes.question_path(conn, :index))
   end
 end
