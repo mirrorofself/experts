@@ -3,7 +3,7 @@
 
   <div>
     <div><%= label f, :body %></div>
-    <div><%= text_input f, :body %></div>
+    <div><%= textarea f, :body %></div>
     <div><%= error_tag f, :body %></div>
   </div>
 
