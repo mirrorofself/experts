@@ -13,4 +13,12 @@ defmodule Experts.Users.User do
 
     timestamps()
   end
+
+  @doc false
+  def changeset(user_or_changeset, attrs) do
+    user_or_changeset
+    |> pow_changeset(attrs)
+    |> Ecto.Changeset.cast(attrs, [:name])
+    |> Ecto.Changeset.validate_required([:name])
+  end
 end

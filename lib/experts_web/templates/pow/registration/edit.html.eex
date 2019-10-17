@@ -7,24 +7,42 @@
     </div>
   <% end %>
 
-  <%= label f, :current_password %>
-  <%= password_input f, :current_password %>
-  <%= error_tag f, :current_password %>
+  <p>To perform any changes on this page, you must enter your current password. Otherwise, changes will be rejected.</p>
+  <div>
+    <%= label f, :current_password %>
+    <%= password_input f, :current_password %>
+    <%= error_tag f, :current_password %>
+  </div>
 
-  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  <p>The name displayed with every question or answer you post.</p>
+  <div>
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password %>
-  <%= error_tag f, :password %>
+  <p>E-mail address that is used as your unique ID on this website for logging in.</p>
+  <div>
+    <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+  </div>
 
-  <%= label f, :confirm_password %>
-  <%= password_input f, :confirm_password %>
-  <%= error_tag f, :confirm_password %>
+  <p>If you want to change your password, fill in the fields below. Otherwise, leave the fields empty.</p>
+  <div>
+    <%= label f, :password %>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+  </div>
 
   <div>
-    <%= submit "Update" %>
+    <%= label f, :confirm_password %>
+    <%= password_input f, :confirm_password %>
+    <%= error_tag f, :confirm_password %>
+  </div>
+
+  <div>
+    <%= submit "Save changes" %>
   </div>
 <% end %>
 
