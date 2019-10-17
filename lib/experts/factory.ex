@@ -8,7 +8,7 @@ defmodule Experts.Factory do
   alias Pow.Ecto.{Schema.Password}
 
   def user_factory do
-    password_hash = Password.pbkdf2_hash("Secret123")
+    password_hash = Password.pbkdf2_hash("Secret1234")
 
     %User{
       name: "Christopher Alexander",
