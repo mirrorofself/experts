@@ -27,13 +27,15 @@ defmodule Experts.PostsTest do
       {:ok, question1: question1, question2: question2}
     end
 
-    test "returns a list of questions in chronological order", %{
+    test "returns a list of questions in chronological order with a preloaded user", %{
       question1: question1,
       question2: question2
     } do
       questions_ids = Enum.map(Posts.list_questions(), fn question -> question.id end)
+      user_names = Enum.map(Posts.list_questions(), fn question -> question.user.name end)
 
       assert questions_ids == [question1.id, question2.id]
+      assert user_names == ["Christopher Alexander", "Christopher Alexander"]
     end
   end
 

@@ -12,6 +12,7 @@ defmodule Experts.Posts do
   """
   def list_questions do
     Question
+    |> preload(:user)
     |> order_by(desc: :inserted_at)
     |> Repo.all()
   end

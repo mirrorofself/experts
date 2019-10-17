@@ -5,6 +5,8 @@
   <div><%= link("Delete", to: Routes.question_path(@conn, :delete, @question.id), data: [confirm: "Are you sure?"], method: :delete) %></div>
 <% end %>
 
+<div><%= @question.user.name %> <%= @question.user.email %></div>
+<div><%= @question.inserted_at %></div>
 <div><%= @question.title %></div>
 <div><%= @question.body %></div>
 <div><%= @question.tags %></div>

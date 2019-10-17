@@ -8,6 +8,9 @@
       <div><%= link(question.title, to: Routes.question_path(@conn, :show, question.id)) %></div>
       <div><%= question.body %></div>
       <div><%= question.tags %></div>
+      <div><%= question.user.name %></div>
+      <div><%= question.user.email %></div>
+      <div><%= question.user.inserted_at %></div>
     </div>
   <% end %>
 </div>
