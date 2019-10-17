@@ -32,7 +32,7 @@ defmodule ExpertsWeb.AnswerController do
         render(conn, "create.js", answer: answer, changeset: changeset, question: question)
 
       {:error, changeset} ->
-        render(conn, "new.js", changeset: changeset)
+        render(conn, "new.js", changeset: changeset, question: question)
     end
   end
 

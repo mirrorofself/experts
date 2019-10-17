@@ -1,1 +1,1 @@
-$("#new_answer").html("<%= javascript_escape ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @changeset) %>")
+$("#new_answer").html("<%= javascript_escape ExpertsWeb.AnswerView.render("_new.html", conn: @conn, changeset: @changeset, question: @question) %>")
