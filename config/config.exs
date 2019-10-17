@@ -28,7 +28,8 @@ config :phoenix, :json_library, Jason
 # Configure a user authentication with pow
 config :experts, :pow,
   user: Experts.Users.User,
-  repo: Experts.Repo
+  repo: Experts.Repo,
+  web_module: ExpertsWeb
 
 config :mime, :types, %{
   "application/javascript" => ["js"]
